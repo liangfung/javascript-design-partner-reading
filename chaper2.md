@@ -71,3 +71,11 @@ Array.prototype.call(a, 2);
 console.log(a.length);   // undefined
 console.log(a[0]);   // undefined
 ```
+
+2. 有length属性值，且可读可写。函数的length属性是表示形参的个数，是只读属性。
+``` javascript
+var func = function() {}
+Array.prototype.push.call(func, 2)
+console.log(func.length);
+// 报错 cannot assign to read only property ‘length’ of function(){}
+```
