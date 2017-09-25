@@ -7,11 +7,13 @@ call和apply是在设计模式中非常常用的两个方法。特别像 **argum
 >自己实现bind方法
 ``` javascript
 Function.prototype.bind = function(context) {
-  var self = this;
-  var context = [].shift.call(arguments);
-  var args = [].slice.call(arguments);
-  return function() {    
+  var self = this;  // 保存原函数 
+  var context = [].shift.call(arguments); // 保存要绑定的this上下文
+  var args = [].slice.call(arguments); // 其他的实参转成数组
+  return function() {    // 返回一个函数
     return self.apply(context, [].concat.apply(args, [].slice.call(arguments)));
+    // 执行新的函数的时候，会将之前传入的context作为新函数的this
+    // 并且整合两次传入的参数作为新函数的参数
   }
 }
 ```
