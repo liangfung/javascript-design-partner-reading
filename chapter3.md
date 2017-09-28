@@ -52,6 +52,16 @@ Function.prototype.after = function(afterFn) {
     return ret;
   }
 }
+
+var fn = function() {
+  console.log(2)
+}
+var func = fn.before(function(){
+  console.log(1)
+}).after(function(){
+  console.log(3)
+})
+func();
 ```
 
 ## 4.高阶函数的常用实现
