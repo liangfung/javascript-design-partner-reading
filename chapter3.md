@@ -4,7 +4,7 @@
 主要内容有四：
 1. [函数作为参数传入](#1函数作为参数传入)
 2. [函数作为返回值输出](#2函数作为返回值输出)
-3. [高阶函数实现AOP](#3高阶函数实现AOP)
+3. [高阶函数实现AOP](#3高阶函数实现aop)
 4. [高阶函数的常用实现](#4高阶函数的常用实现)
 
 ## 1.函数作为参数传入
@@ -33,7 +33,26 @@ isNumber(1);      // true
 ```
 
 ## 3.高阶函数实现AOP
-AOP(面向切面编程)
+AOP(面向切面编程),就是指把与业务无关的功能模块抽离出来，这些跟业务功能无关的功能通常是日志统计，安全控制，异常处理等等，抽离出来之后再通过“动态zhi”可以让核心功能模块更加的纯净。
+下面的例子是增加一个before和after函数
+``` javascript
+Function.prototype.before = function(beforeFn) {
+  var self = this;
+  return function() {
+    beforeFn.apply(this, arguments);
+    return self.apply(this, arguments);
+  }
+}
+
+Function.prototype.after = function(afterFn) {
+  var self = this;
+  return function() {
+    var ret = self.apply(this, arguments);
+    afterFn.apply(this, arguments);
+    return ret;
+  }
+}
+```
 
 ## 4.高阶函数的常用实现
 
@@ -68,4 +87,3 @@ window.onresize = throttle( function(){
   console.log(1)
 }, 500)
 ```
-
