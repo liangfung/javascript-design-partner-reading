@@ -14,6 +14,7 @@ var throttle = function(fn, interval) {
     var args = arguments;
     if(firstTime) {
       __self.apply(__me, args);
+      return firstTime = false;
     }
     if(timer) {
       return false;
@@ -25,4 +26,8 @@ var throttle = function(fn, interval) {
     }, interval || 500)
   }
 }
+
+window.onresize = throttle( function(){
+  console.log(1)
+}, 500)
 ```
