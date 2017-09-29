@@ -66,6 +66,43 @@ func();
 
 ## 4.高阶函数的常用实现
 
+#### 柯里化currying
+下面实现一个cost函数来记录一个月的总花销，虽然还不是完整的柯里化，先了解柯里化的思想
+``` javascript
+var cost = (function (){
+  var arr = [];
+  return function() {
+    if(arguments.length === 0) {
+      var money = 0;
+      for(var i = 0; i<arr.length; i++) {
+        money += arr[i]
+      }
+      return money;
+    } else {
+      [].push.apply(arr, arguments)
+    }
+  }
+})()
+
+cost(100);
+cost(200);
+cost();   // 300
+```
+
+经过上面的例子，可以编写一个通用的currying函数，其接受一个函数作为参数，就是要被柯里化的函数
+``` javascript
+var currying = function(fn) {
+  var args = [];
+  return function() {
+    if (arguments.length === 0) {
+      for(var i = 0; i < args.length; i++) {
+        fn.apply(this, args)
+      }
+    }
+  }
+}
+```
+
 #### 高阶函数实现节流
 ``` javascript
 var throttle = function(fn, interval) {
