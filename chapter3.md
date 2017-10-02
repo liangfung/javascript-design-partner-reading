@@ -122,26 +122,37 @@ cost();  // 600
 ```
 
 #### 高阶函数实现节流
+
+在JS中，函数大多是由于用户的操作主动触发调用的。但是在少数情况下，函数的触发不是由用户直接控制的，函数有可能被非常频繁的调用，造成大的性能问题
+1. 函数被频繁调用的场景
+    - window.onresize事件 
+    - mouseover事件（如拖拽）
+    - 上传进度
+2. 节流的原理
+借助settimeout控制事件触发的频率
+3. 实现
 ``` javascript
 var throttle = function(fn, interval) {
-  var __self = fn; 
-  var firstTime = true;
-  var timer;
-  return function() {
+  var __self = fn;  // 需要被节流的函数引用
+  var firstTime = true;  // 是否为第一次触发
+  var timer;   // 定时器
+  return function() {
     // 保存this, 因为下面有setInterval,直接只用this会改变this的指向，
     // 否则，会作为直接调用的方式，this一直指向window(严格模式下为undefined)
     var __me = this;
     // 同样的道理，存起来，不然的话，在setInterval里面调用fn的时候，arguments则是setInterval的回调函数的实参
     var args = arguments;
     if(firstTime) {
-      __self.apply(__me, args);
+      // 如果是第一次触发，不需要延迟执行
+      __self.apply(__me, args);
       return firstTime = false;
     }
     if(timer) {
-      return false;
+      // 如果定时器还在，则表明还在延迟时间内，不调用
+      return false;
     }
-    timer = setInterval(function(){
-      clearTimeout(timer);
+    timer = setInterval(function(){  // 延迟调用
+      clearTimeout(timer);
       timer = null;
       __self.apply(__me, args)
     }, interval || 500)
