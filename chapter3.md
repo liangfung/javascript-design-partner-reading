@@ -95,12 +95,30 @@ var currying = function(fn) {
   var args = [];
   return function() {
     if (arguments.length === 0) {
-      for(var i = 0; i < args.length; i++) {
-        fn.apply(this, args)
-      }
+      return fn.apply(this, args)
+    } else {
+      [].push.apply(args, arguments);
+      return arguments.callee;
     }
   }
 }
+
+var cost = (function(){
+  var money = 0;
+  return function() {
+    for (var i = 0; i < arguments.length; i++) {
+      money += arguments[i]
+    };
+    return money;
+  }
+})()
+
+// 调用currying函数，将cost柯里化
+cost = currying(cost);
+cost(100);   // 未真正求出结果, 暂存参数
+cost(200);   // 未真正求出结果, 暂存参数
+cost(300);   // 未真正求出结果, 暂存参数
+cost();  // 600
 ```
 
 #### 高阶函数实现节流
