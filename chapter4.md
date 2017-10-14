@@ -33,6 +33,13 @@ a === b  // true
 下面写更完整的单例模式。
 在实际编写的时候，会采用代理的模式，就是将实际的业务操作和单例化操作分开，就像上一章的[柯里化](https://github.com/liangfung/javascript-design-partner-reading/blob/master/chapter3.md#柯里化currying)的第二段代码一样，将函数作为柯里化函数的参数，更能解耦，如此一来，柯里化和单例化的函数的复用性就更高了。
 ```js
-function Singleton() {
+function Singleton(fn) {
+  var instance;
+  return function() {
+    if(!instance) {
+      instance = fn.apply(this, arguments)
+    }
+    return instance;
+  }
 }
 ```
