@@ -20,3 +20,28 @@ var calculateBouns = function(performanceLevel, salary) {
 calculateBouns('S', 20000);    // 80000
 calculateBouns('A', 10000);    // 30000
 ```
+
+使用面向对象的思路，以策略模式重写
+```js 
+var performanceS = function(){}
+performanceS.prototype.calculate = function(salary) {
+  return salary * 4
+}
+
+var performanceA = function(){}
+performanceA.prototype.calculate = function(salary) {
+  return salary * 3
+}
+
+var performanceB = function(){}
+performanceB.prototype.calculate = function(salary) {
+  return salary * 2
+}
+
+var getBouns = function() {
+  this.salary = null
+  this.strategy = null
+}
+```
+
+
