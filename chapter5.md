@@ -165,7 +165,7 @@ Validate.prototype.add = function(dom, rule, errorMsg) {
     var strategy = ary.shift()    // 用户挑选的strategy
     ary.unshift(dom);             // 规则作用的dom
     ary.push(errorMsg);           // 错误信息
-    return strategies[rule].apply(dom, ary)
+    return strategies[strategy].apply(dom, ary)
   })
 }
 ```
